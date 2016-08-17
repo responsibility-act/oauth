@@ -71,5 +71,5 @@ Good luck.
 
 + Please always use localhost for all the connection. As 127.0.0.1 will give you errors.
 + Please look into other [auth providers](https://github.com/markbates/goth/tree/master/providers) in Goth to see how they are structured and how they work. Look especially into the one we have set up ;)
-+ Please take into consideration that OAuth2 server does not support the HTTP Basic authentication scheme to authenticate with the authorization server. If you look at the [WePay](https://github.com/markbates/goth/tree/master/providers/wepay) driver you might find the solution but please do not use this driver as a reference.
++ Please take into consideration that OAuth2 server does not support the HTTP Basic authentication scheme to authenticate with the authorization server. If you look at the [WePay](https://github.com/markbates/goth/tree/master/providers/wepay) driver you might find the solution but please do not use this driver as a reference. Another hint is the following API docs around [oauth2 in go](https://godoc.org/golang.org/x/oauth2#RegisterBrokenAuthHeaderProvider)
 + If you have extra time and really want to impress us, you can write some tests as a bonus

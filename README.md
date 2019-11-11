@@ -34,19 +34,15 @@ Once the server has started you should see the following output.
 Configured Routes:
                NAME                       METHOD         PATH
                /                          GET            /
-               /auth/:provider            GET            /auth/:provider
-               /auth/:provider/callback   GET            /auth/:provider/callback
+               /auth/{provider}           GET            /auth/{provider}
+               /auth/{provider}/callback  GET            /auth/{provider}/callback
                /login                     GET            /login
                /logout                    GET            /logout
-         _____      _
-        |_   _|    (_)
-          | |  ____ _  ___
-          | | | __|| |/ __|
-         _| |_| |  | |\__ \
-        |_____|_|  |_||___/ 4.0.0-alpha.4
 
-Running at 0.0.0.0:3000
+Now listening on: http://0.0.0.0:3000
+Application started. Press CTRL+C to shut down.
 ```
+
 To test that the server is working correctly please access the following URL: http://localhost:3000/. You will get a message like this:
 ```json
 "{\"code\":\"401\",\"message\":\"Please login into the platform\"}"

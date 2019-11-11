@@ -13,6 +13,7 @@ const (
 
 // Provider is the implementation of `goth.Provider` for accessing APS.
 type Provider struct {
+	name        string
 	ClientKey   string
 	Secret      string
 	CallbackURL string
@@ -22,7 +23,16 @@ type Provider struct {
 
 // New - Please fill the code
 func New(clientKey, secret, callbackURL string, scopes ...string) *Provider {
-	return nil
+	return &Provider{
+		name:        "aps",
+		ClientKey:   clientKey,
+		Secret:      secret,
+		CallbackURL: callbackURL,
+	}
+}
+
+func (p *Provider) SetName(name string) {
+	p.name = name
 }
 
 // FetchUser - Please fill the code
@@ -42,7 +52,7 @@ func (p *Provider) RefreshTokenAvailable() bool {
 
 // Name is the name used to retrieve this provider later.
 func (p *Provider) Name() string {
-	return "aps"
+	return p.name
 }
 
 // Debug is a no-op for the APS package.

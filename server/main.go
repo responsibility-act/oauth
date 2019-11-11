@@ -9,8 +9,8 @@ import (
 	"os"
 	"time"
 
+	"gopkg.in/oauth2.v3/errors"
 	"gopkg.in/oauth2.v3/manage"
-	"gopkg.in/oauth2.v3/models"
 	"gopkg.in/oauth2.v3/server"
 	"gopkg.in/oauth2.v3/store"
 
@@ -32,6 +32,30 @@ func init() {
 	go globalSessions.GC()
 }
 
+// The client information model interface of oauth2.v3
+type clientInfo struct {
+	id     string
+	secret string
+	domain string
+	userID string
+}
+
+func (c clientInfo) GetID() string {
+	return c.id
+}
+
+func (c clientInfo) GetDomain() string {
+	return c.domain
+}
+
+func (c clientInfo) GetSecret() string {
+	return c.secret
+}
+
+func (c clientInfo) GetUserID() string {
+	return c.userID
+}
+
 func main() {
 	manager := manage.NewDefaultManager()
 
@@ -51,16 +75,20 @@ func main() {
 	manager.SetAuthorizeCodeTokenCfg(cfg)
 
 	// client store
-	manager.MapClientStorage(store.NewTestClientStore(&models.Client{
-		ID:     "bawdy-reindeers-14-56dd2bcc2ba94",
-		Secret: "6454acedc7024fdfa743c5407da7ad44",
-		Domain: "http://localhost:3000",
-	}))
+	s := store.NewClientStore()
+	storeID := "bawdy-reindeers-14-56dd2bcc2ba94"
+	s.Set(storeID, clientInfo{
+		id:     storeID,
+		secret: "6454acedc7024fdfa743c5407da7ad44",
+		domain: "http://localhost:3000",
+	})
+	manager.MapClientStorage(s)
 
 	srv := server.NewServer(server.NewConfig(), manager)
 	srv.SetUserAuthorizationHandler(userAuthorizeHandler)
-	srv.SetInternalErrorHandler(func(err error) {
+	srv.SetInternalErrorHandler(func(err error) (re *errors.Response) {
 		fmt.Println("internal error:", err.Error())
+		return nil
 	})
 
 	http.HandleFunc("/login", loginHandler)
